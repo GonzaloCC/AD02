@@ -1,8 +1,10 @@
 {
   "tendas": [
     {
-      "nome": "cancelas",
-      "cidade": "santiago"
+      "nome": "Vestidor azul",
+      "cidade": "Sigu",
+      "productos": [],
+      "empregados": []
     }
   ],
   "clientes": []

@@ -2,11 +2,11 @@ package AD02;
 
 import java.util.ArrayList;
 
-public class Compañia {
-	ArrayList<Tenda> tendas;
+public class Compania {
+	ArrayList<Tenda> tendas ;
 	ArrayList<Cliente> clientes;
 	
-	public Compañia( ) {
+	public Compania( ) {
 		tendas = new ArrayList<Tenda>();
 		clientes = new ArrayList <Cliente>();
 		}

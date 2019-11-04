@@ -1,6 +1,12 @@
 package AD02;
 
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,127 +20,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Main {
-
+	static File arquivo = new File("data.json");
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		
-		Compañia compañia= new Compañia();
-		deserializar(compañia);
-		Scanner entrada= new Scanner(System.in);
-		int eleccion;
-		
-		
-		
-		
-		System.out.println("1-Engadir unha tenda.\r\n" + 
-				"2-Eliminar unha tenda (elimínanse tódolos productos e empragados desta).\r\n" + 
-				"3-Engadir un producto a tenda.\r\n" + 
-				"4-Eliminiar un producto a tenda.\r\n" + 
-				"5-Engadir un empregado a tenda.\r\n" + 
-				"6-Eliminar un emprega a tenda.\r\n" + 
-				"7-Engadir un cliente.\r\n" + 
-				"8-Eliminar un cliente.\r\n" + 
-				"9-Crear unha copia de seguriadade dos datos\r\n" + 
-				"10-Ler os titulares do periódico El País\r\n" + 
-				"11-Sair do programa.");
-		
-		eleccion= entrada.nextInt();
-		String salto= entrada.nextLine();
-		switch(eleccion) {
-		case 1:
-			String nome;
-			String cidade;
-			System.out.println("Nome da tenda");
-			nome= entrada.nextLine();
-			System.out.println("Cidade da tenda");
-			cidade= entrada.nextLine();
-			Tenda tenda= new Tenda(nome, cidade);
-			compañia.tendas.add(tenda);	
-			serializar(compañia);
-			break;
-		case 2:
-			System.out.println("Nome da tenda");
-			break;
-		case 3:
-			String identificador;
-			String descripcion;
-			double prezo;
-			int cantidade;
-			System.out.println("Identificador do producto");
-			identificador=entrada.nextLine();
-			System.out.println("Descripcion do producto");
-			descripcion=entrada.nextLine();
-			System.out.println("Prezo do producto");
-			prezo=entrada.nextDouble();
-			System.out.println("Cantidade do producto");
-			cantidade=entrada.nextInt();
-			break;
-		case 4:
-			System.out.println("Identificador do producto");
-			break;
-		case 5:
-			String nomeEmpregado;
-			String apelidosEmpregado;
-			System.out.println("Nome do empregado");
-			nomeEmpregado=entrada.nextLine();
-			System.out.println("Apelidos do empregado");
-			apelidosEmpregado=entrada.nextLine();
-			break;
-		case 6:
-			System.out.println("Nome do empregado");
-			break;
-		case 7:
-			String nomeCliente;
-			String apelidosCliente;
-			String email;
-			System.out.println("Nome do cliente");
-			System.out.println("Apelido do cliente");
-			System.out.println("E-mail do cliente");
-			break;
-		case 8:
-			System.out.println("Nome do cliente");
-			break;
-		case 9:
-			System.out.println("Se procede a crear copia de seguridad");
-			break;
-		case 10:
-			break;
-		case 11:
-			System.exit(0);
-			break;
-		default:
-			break;
-		}
-		
-	}
-	
-	static void serializar(Compañia compañia) {
-		 //Pasamos a nosa clase a JSON utilizando a libreria GSON
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String json = gson.toJson(compañia);
-
-        //Vamos comezar declarando o ficheiro
-        File arquivo = new File("data.json");
-
-        try {
-            //Creamos o fluxo de saida
-            FileWriter fluxoDatos = new FileWriter(arquivo);
-            BufferedWriter buferSaida = new BufferedWriter(fluxoDatos);
-
-            buferSaida.write(json);
-
-            //Cerramos o arquivo
-            buferSaida.close();
-        } catch (IOException e) {
-
-        }
-	}
-	
-	
-	static void deserializar(Compañia compañia) {
-		//Vamos comezar declarando o ficheiro
-        File arquivo = new File("data.json");
+        Compania compania=new Compania();
 
         try {
 
@@ -160,25 +50,277 @@ public class Main {
 
             //Pasamos o json a clase ca cal se corresponde
             Gson gson = new Gson();
-            compañia = gson.fromJson(json, Compañia.class);
+            compania = gson.fromJson(json, Compania.class);
             
-            //Comprobamos que se leron ben os datos
-            
-            System.out.println("tendas:");
-            for(int i=0;i<compañia.getTendas().size();i++){
-                Tenda tendaAux = compañia.getTendas().get(i);
-                System.out.println(tendaAux.getNome() + " " + tendaAux.getCidade());
-            }
 			
 
         } catch (FileNotFoundException e) {
             System.out.println("Non se encontra o arquivo");
         } catch (IOException e) {
-            System.out.println("Erro de entrada saída");
+            System.out.println("Erro de entrada saï¿½da");
         }
-    }
+        
+ 
+		Scanner entrada= new Scanner(System.in);
+		int eleccion;
+		
+		
+		
+		do {
+		System.out.println("1-Engadir unha tenda.\r\n" + 
+				"2-Eliminar unha tenda (elimï¿½nanse tï¿½dolos productos e empragados desta).\r\n" + 
+				"3-Engadir un producto a tenda.\r\n" + 
+				"4-Eliminiar un producto a tenda.\r\n" + 
+				"5-Engadir un empregado a tenda.\r\n" + 
+				"6-Eliminar un emprega a tenda.\r\n" + 
+				"7-Engadir un cliente.\r\n" + 
+				"8-Eliminar un cliente.\r\n" + 
+				"9-Crear unha copia de seguriadade dos datos\r\n" + 
+				"10-Ler os titulares do periï¿½dico El Paï¿½s\r\n" + 
+				"11-Sair do programa.");
+		
+		eleccion= entrada.nextInt();
+		String salto= entrada.nextLine();
+		switch(eleccion) {
+		case 1:
+			String nome;
+			String cidade;
+			System.out.println("Nome da tenda");
+			nome= entrada.nextLine();
+			System.out.println("Cidade da tenda");
+			cidade= entrada.nextLine();
+			Tenda tenda= new Tenda(nome, cidade);
+			compania.tendas.add(tenda);	
+			serializar(compania);
+			break;
+		case 2:
+			if(compania.tendas.size()>0) {
+				System.out.println("Que tenda desexa eliminar?");
+				for(int i=0;i<compania.tendas.size();i++) {
+					System.out.println(i+": "+compania.tendas.get(i).getNome());
+				}
+				int eliminar= entrada.nextInt();
+				String salto2=entrada.nextLine();
+				if(eliminar<=compania.tendas.size()) {
+					compania.tendas.remove(eliminar);
+				}else {
+					System.out.println("Numero incorrecto");
+				}
+				serializar(compania);
+			}else {
+				System.out.println("Non hai creada ningunha tenda");
+			}
+			
+			break;
+		case 3:
+			String identificador;
+			String descripcion;
+			double prezo;
+			int cantidade;
+			System.out.println("Identificador do producto");
+			identificador=entrada.nextLine();
+			System.out.println("Descripcion do producto");
+			descripcion=entrada.nextLine();
+			System.out.println("Prezo do producto");
+			prezo=entrada.nextDouble();
+			System.out.println("Cantidade do producto");
+			cantidade=entrada.nextInt();
+			Producto producto=new Producto(identificador,descripcion,prezo,cantidade);
+			System.out.println("A que tenda quere engadir o empregado");
+			for (int i=0; i<compania.tendas.size();i++) {			
+				System.out.println(i+"-"+compania.getTendas().get(i).getNome());
+			}
+			int numTenda=entrada.nextInt();
+			String salto2=entrada.nextLine();
+			compania.getTendas().get(numTenda).productos.add(producto);
+			serializar(compania);
+			break;
+		case 4:
+			if(compania.tendas.size()>0) {
+				System.out.println("Elixe unha tenda:");
+				for(int i=0;i<compania.tendas.size();i++) {
+					System.out.println(i+": "+compania.tendas.get(i).getNome());				
+				}
+				int tendaElexida= entrada.nextInt();
+				String salto3=entrada.nextLine();
+				if(compania.tendas.get(tendaElexida).productos.size()>0) {
+					for(int i=0;i<compania.tendas.size();i++) {
+						System.out.println(i+": "+compania.tendas.get(i).productos.get(i).getDescripcion()); 
+					}
+					int eliminar= entrada.nextInt();
+					String salto4=entrada.nextLine();
+					if(eliminar<=compania.tendas.get(tendaElexida).productos.size()) {
+						compania.tendas.get(tendaElexida).productos.remove(eliminar);
+					}else {
+						System.out.println("Numero incorrecto");
+					}
+					serializar(compania);
+				}else {
+					System.out.println("Non hai ningï¿½n producto");
+				}
+			}else {
+				System.out.println("Non hai creada ningunha tenda");
+			}
+			break;
+		case 5:
+			String nomeEmpregado;
+			String apelidosEmpregado;
+			System.out.println("Nome do empregado");
+			nomeEmpregado=entrada.nextLine();
+			System.out.println("Apelidos do empregado");
+			apelidosEmpregado=entrada.nextLine();
+			Empregado empregado=new Empregado(nomeEmpregado,apelidosEmpregado);
+			System.out.println("A que tenda quere engadir o empregado");
+			for (int i=0; i<compania.tendas.size();i++) {			
+				System.out.println(i+"-"+compania.getTendas().get(i).getNome());
+			}
+			int numTenda2=entrada.nextInt();
+			String salto3=entrada.nextLine();
+			compania.getTendas().get(numTenda2).empregados.add(empregado);
+			serializar(compania);
+			break;
+		case 6:
+			if(compania.tendas.size()>0) {
+				System.out.println("Elixe unha tenda:");
+				for(int i=0;i<compania.tendas.size();i++) {
+					System.out.println(i+": "+compania.tendas.get(i).getNome());				
+				}
+				int tendaElexida= entrada.nextInt();
+				String salto4=entrada.nextLine();
+				if(compania.tendas.get(tendaElexida).empregados.size()>0) {
+					for(int i=0;i<compania.tendas.size();i++) {
+						System.out.println(i+": "+compania.tendas.get(i).empregados.get(i).getNome()); 
+					}
+					int eliminar= entrada.nextInt();
+					if(eliminar<=compania.tendas.get(tendaElexida).empregados.size()) {
+						compania.tendas.get(tendaElexida).empregados.remove(eliminar);
+					}else {
+						System.out.println("Numero incorrecto");
+					}
+					serializar(compania);
+				}else {
+					System.out.println("Non hai ningï¿½n producto");
+				}
+			}else {
+				System.out.println("Non hai creada ningunha tenda");
+			}
+			break;
+
+		case 7:
+			String nomeCliente;
+			String apelidosCliente;
+			String email;
+			System.out.println("Nome do cliente");
+			nomeCliente=entrada.nextLine();
+			System.out.println("Apelido do cliente");
+			apelidosCliente=entrada.nextLine();
+			System.out.println("E-mail do cliente");
+			email=entrada.nextLine();
+			Cliente cliente=new Cliente(nomeCliente,apelidosCliente,email);
+			compania.clientes.add(cliente);
+			serializar(compania);
+			break;
+		case 8:
+			if(compania.tendas.size()>0) {
+				System.out.println("Que cliente desexa eliminar?");
+				for(int i=0;i<compania.clientes.size();i++) {
+					System.out.println(i+": "+compania.clientes.get(i).getNome());
+				}
+				int eliminar= entrada.nextInt();
+				String salto5=entrada.nextLine();
+				compania.clientes.remove(eliminar);
+				serializar(compania);
+			}else {
+				System.out.println("Non hai creada ningunha tenda");
+			}
+		case 9:
+			System.out.println("Se procede a crear copia de seguridad");
+	        File arquivoCopia = new File("data_backup.json");
+
+	        try{
+	            //Creamos o fluxo de saida
+	        	FileReader fluxoEntrada= new FileReader(arquivo);
+	            FileWriter fluxoSaida = new FileWriter(arquivoCopia);
+	            
+	            int caracter;
+	            while ((caracter=fluxoEntrada.read()) != -1) {
+	            	fluxoSaida.write(caracter);
+	            	}
+
+
+	            //Cerramos o arquivo
+	            fluxoEntrada.close();
+	            fluxoSaida.close();
+	        }
+	        catch(IOException e){
+	            System.out.println("Non se pode escribir no arquivo");
+	        }
+	        if(arquivoCopia.exists()) {
+	        	System.out.println("Copia realizada con exito");
+	        }else {
+	        	System.out.println("Ocorreu algï¿½n erro e non se realizou a copia");
+	        }
+
+			break;
+		case 10:
+			 XMLReader procesadorXML = null;
+			 
+			 try {
+
+		            //Creamos un parseador de texto e engadimoslle a nosa clase que vai parsear o texto
+		            procesadorXML = XMLReaderFactory.createXMLReader();
+		            TitularesXML titularesXML = new TitularesXML();
+		            procesadorXML.setContentHandler(titularesXML);
+
+		            //Indicamos o texto donde estan gardadas as persoas
+		            InputSource arquivo = new InputSource("http://ep00.epimg.net/rss/elpais/portada.xml");
+		            procesadorXML.parse(arquivo);
+
+		            //Imprimimos os datos lidos no XML
+		            ArrayList<Titular> titulares = titularesXML.getTitulares();
+		            
+		            for(int i=0;i<titulares.size();i++){
+		                Titular titularAux = titulares.get(i);
+		                System.out.println("Titular "+(i+1)+": " + titularAux.getTexto() );
+		            }
+
+		        } catch (SAXException e) {
+		            System.out.println("Ocurriu un erro ao ler o arquivo XML");
+		        } catch (IOException e) {
+		            System.out.println("Ocurriu un erro ao ler o arquivo XML");
+		        }
+			break;
+		case 11:
+			System.exit(0);
+			break;
+		default:
+			break;
+		}
+		}while(eleccion!=11);
+		
+	}
 	
-	
+	static void serializar(Compania compania) {
+		 //Pasamos a nosa clase a JSON utilizando a libreria GSON
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(compania);
+
+        //Vamos comezar declarando o ficheiro
+        
+
+        try {
+            //Creamos o fluxo de saida
+            FileWriter fluxoDatos = new FileWriter(arquivo);
+            BufferedWriter buferSaida = new BufferedWriter(fluxoDatos);
+
+            buferSaida.write(json);
+
+            //Cerramos o arquivo
+            buferSaida.close();
+        } catch (IOException e) {
+
+        }
+	}
 	
 		
 

@@ -10,9 +10,10 @@ public class Tenda  {
 	ArrayList<Empregado> empregados;
 	
 	public Tenda(String nome, String cidade) {
-		super();
 		this.nome = nome;
 		this.cidade = cidade;
+		productos=new ArrayList<Producto>();
+		empregados=new ArrayList<Empregado>();
 	}
 	
 	public String getNome() {
