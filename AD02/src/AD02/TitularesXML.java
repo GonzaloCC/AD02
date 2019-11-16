@@ -7,10 +7,10 @@ import java.util.ArrayList;
 
 public class TitularesXML extends DefaultHandler {
 
-	//Aqui imos gardar os datos de todalas persoas do XML
+	//Aqui imos gardar os datos de todalos titulares do XML
     private ArrayList<Titular> titulares;
 
-    //E un atributo auxiliar para ir gardando os datos da Persoa do XML
+    //E un atributo auxiliar para ir gardando os datos dos Titulares do XML
     private Titular titularAux;
 
     //E un atributo auxiliar po texto que hai entre as etiquetas

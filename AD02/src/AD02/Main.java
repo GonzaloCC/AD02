@@ -14,7 +14,9 @@ import com.google.gson.GsonBuilder;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -57,7 +59,7 @@ public class Main {
         } catch (FileNotFoundException e) {
             System.out.println("Non se encontra o arquivo");
         } catch (IOException e) {
-            System.out.println("Erro de entrada saï¿½da");
+            System.out.println("Erro de entrada saida");
         }
         
  
@@ -68,7 +70,7 @@ public class Main {
 		
 		do {
 		System.out.println("1-Engadir unha tenda.\r\n" + 
-				"2-Eliminar unha tenda (elimï¿½nanse tï¿½dolos productos e empragados desta).\r\n" + 
+				"2-Eliminar unha tenda (eliminanse tódolos productos e empregados desta).\r\n" + 
 				"3-Engadir un producto a tenda.\r\n" + 
 				"4-Eliminiar un producto a tenda.\r\n" + 
 				"5-Engadir un empregado a tenda.\r\n" + 
@@ -76,7 +78,7 @@ public class Main {
 				"7-Engadir un cliente.\r\n" + 
 				"8-Eliminar un cliente.\r\n" + 
 				"9-Crear unha copia de seguriadade dos datos\r\n" + 
-				"10-Ler os titulares do periï¿½dico El Paï¿½s\r\n" + 
+				"10-Ler os titulares do periodico El País\r\n" + 
 				"11-Sair do programa.");
 		
 		eleccion= entrada.nextInt();
@@ -101,7 +103,7 @@ public class Main {
 				}
 				int eliminar= entrada.nextInt();
 				String salto2=entrada.nextLine();
-				if(eliminar<=compania.tendas.size()) {
+				if(eliminar<compania.tendas.size()) {
 					compania.tendas.remove(eliminar);
 				}else {
 					System.out.println("Numero incorrecto");
@@ -109,8 +111,7 @@ public class Main {
 				serializar(compania);
 			}else {
 				System.out.println("Non hai creada ningunha tenda");
-			}
-			
+			}			
 			break;
 		case 3:
 			String identificador;
@@ -126,14 +127,23 @@ public class Main {
 			System.out.println("Cantidade do producto");
 			cantidade=entrada.nextInt();
 			Producto producto=new Producto(identificador,descripcion,prezo,cantidade);
-			System.out.println("A que tenda quere engadir o empregado");
-			for (int i=0; i<compania.tendas.size();i++) {			
-				System.out.println(i+"-"+compania.getTendas().get(i).getNome());
+			if(compania.tendas.size()>0) {
+			System.out.println("A que tenda quere engadir o producto");
+				for (int i=0; i<compania.tendas.size();i++) {			
+					System.out.println(i+"-"+compania.getTendas().get(i).getNome());
+				}
+				int numTenda=entrada.nextInt();
+				String salto2=entrada.nextLine();
+				if(numTenda<compania.tendas.size()) {
+					compania.getTendas().get(numTenda).productos.add(producto);
+				}else {
+					System.out.println("Numero incorrecto");
+				}
+				serializar(compania);
+			}else {
+				System.out.println("Non hai ningunha tenda creada a que agregar o producto");
 			}
-			int numTenda=entrada.nextInt();
-			String salto2=entrada.nextLine();
-			compania.getTendas().get(numTenda).productos.add(producto);
-			serializar(compania);
+
 			break;
 		case 4:
 			if(compania.tendas.size()>0) {
@@ -143,6 +153,7 @@ public class Main {
 				}
 				int tendaElexida= entrada.nextInt();
 				String salto3=entrada.nextLine();
+				System.out.println("Elixe un producto:");
 				if(compania.tendas.get(tendaElexida).productos.size()>0) {
 					for(int i=0;i<compania.tendas.size();i++) {
 						System.out.println(i+": "+compania.tendas.get(i).productos.get(i).getDescripcion()); 
@@ -156,7 +167,7 @@ public class Main {
 					}
 					serializar(compania);
 				}else {
-					System.out.println("Non hai ningï¿½n producto");
+					System.out.println("Non hai ningun producto");
 				}
 			}else {
 				System.out.println("Non hai creada ningunha tenda");
@@ -170,14 +181,23 @@ public class Main {
 			System.out.println("Apelidos do empregado");
 			apelidosEmpregado=entrada.nextLine();
 			Empregado empregado=new Empregado(nomeEmpregado,apelidosEmpregado);
-			System.out.println("A que tenda quere engadir o empregado");
-			for (int i=0; i<compania.tendas.size();i++) {			
-				System.out.println(i+"-"+compania.getTendas().get(i).getNome());
+			if(compania.tendas.size()>0) {
+				System.out.println("A que tenda quere engadir o empregado");
+				for (int i=0; i<compania.tendas.size();i++) {			
+					System.out.println(i+"-"+compania.getTendas().get(i).getNome());
+				}
+				int numTenda2=entrada.nextInt();
+				String salto3=entrada.nextLine();
+				if(numTenda2<compania.tendas.size()) {
+					compania.getTendas().get(numTenda2).empregados.add(empregado);
+				}else {
+					System.out.println("numero incorrecto");
+				}
+				serializar(compania);
+			}else {
+				System.out.println("Non hai ningunha tenda creada a que agregar o empregado");
 			}
-			int numTenda2=entrada.nextInt();
-			String salto3=entrada.nextLine();
-			compania.getTendas().get(numTenda2).empregados.add(empregado);
-			serializar(compania);
+
 			break;
 		case 6:
 			if(compania.tendas.size()>0) {
@@ -221,31 +241,37 @@ public class Main {
 			serializar(compania);
 			break;
 		case 8:
-			if(compania.tendas.size()>0) {
+			if(compania.clientes.size()>0) {
 				System.out.println("Que cliente desexa eliminar?");
 				for(int i=0;i<compania.clientes.size();i++) {
 					System.out.println(i+": "+compania.clientes.get(i).getNome());
 				}
 				int eliminar= entrada.nextInt();
 				String salto5=entrada.nextLine();
-				compania.clientes.remove(eliminar);
+				if(eliminar<compania.clientes.size()) {
+					compania.clientes.remove(eliminar);
+				}
 				serializar(compania);
 			}else {
-				System.out.println("Non hai creada ningunha tenda");
+				System.out.println("Non hai clientes que eliminar");
 			}
+			break;
 		case 9:
 			System.out.println("Se procede a crear copia de seguridad");
-	        File arquivoCopia = new File("data_backup.json");
+			String nomeArquivo=arquivo.getName().substring(0,arquivo.getName().length()-5);
+			nomeArquivo=nomeArquivo+"_backup.json";
+	        File arquivoCopia = new File(nomeArquivo);
 
 	        try{
 	            //Creamos o fluxo de saida
-	        	FileReader fluxoEntrada= new FileReader(arquivo);
-	            FileWriter fluxoSaida = new FileWriter(arquivoCopia);
+	        	FileInputStream fluxoEntrada= new FileInputStream(arquivo);
+	            FileOutputStream fluxoSaida = new FileOutputStream(arquivoCopia);
 	            
-	            int caracter;
-	            while ((caracter=fluxoEntrada.read()) != -1) {
-	            	fluxoSaida.write(caracter);
-	            	}
+	            
+	            int datoByte;
+	            while ((datoByte=fluxoEntrada.read())!= -1) {
+	            	fluxoSaida.write(datoByte);
+	            }
 
 
 	            //Cerramos o arquivo
@@ -258,7 +284,7 @@ public class Main {
 	        if(arquivoCopia.exists()) {
 	        	System.out.println("Copia realizada con exito");
 	        }else {
-	        	System.out.println("Ocorreu algï¿½n erro e non se realizou a copia");
+	        	System.out.println("Ocorreu algun erro e non se realizou a copia");
 	        }
 
 			break;

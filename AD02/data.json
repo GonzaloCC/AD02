@@ -1,11 +1,4 @@
 {
-  "tendas": [
-    {
-      "nome": "Vestidor azul",
-      "cidade": "Sigu",
-      "productos": [],
-      "empregados": []
-    }
-  ],
+  "tendas": [],
   "clientes": []
 }

@@ -23,14 +23,7 @@ public class Compania {
 		this.clientes = clientes;
 	}
 	
-    //Metodo que pasa a JSON
-    public String toJSON(){
-        String json = new String();
-        json = json + "{ ";
-        json = json + "\"tendas\" : \"" + this.tendas + "\",";
-        json = json + "\"clientes\" : " + this.clientes + " }";
-        return json;
-    }
+
 	
 
 }
